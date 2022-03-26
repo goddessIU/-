@@ -1,0 +1,863 @@
+这篇面经是我读这篇文章，自己总结的答案
+https://zhuanlan.zhihu.com/p/139983258
+
+# 1.position
+
+static ：正常的布局行为
+relative: 先放置在未添加定位时的位置，然后在不改变布局的前提下调整元素位置
+absolute: 元素移出正常文档流，不为元素预留空间， 失去原来位置，其位置相对于最近的非 static 定位祖先元素
+fixed: 元素移出正常文档流，不为元素预留空间，相对位置是相对于屏幕视口的位置
+sticky: 可以认为是相对定位和固定定位的混合，在达到阈值前是相对定位，之后是固定定位;父元素必须 overflow：visible， 如果设置的是 bottom 是先固定再滚动，top 是先滚动在固定
+
+```html
+position: -webkit-sticky; //-webkit浏览器私有前缀 position: sticky;
+```
+
+2.选择器
+
+- 通配符选择器
+  标签选择器
+  类
+  ID
+  a[title] 标签属性选择器
+  p:first-child 伪类
+
+```html
+div:hover { background-color: blue; }
+```
+
+p::first-line 伪元素
+
+```html
+div::before { /* display: block; */ background-color: red; content: 'aaa'; }
+```
+
+div > p 子代选择器
+div p 后代选择器
+h1 + p 相邻兄弟
+
+```html
+ul不变色，必须是挨着， 改成p，p变色
+    <style>
+      div + ul {
+        background-color: blue;
+      }
+
+    </style>
+</head>
+<body>
+    <div>aaa</div>
+    <p>aaa</p>
+    <ul>aaa</ul>
+</body>
+```
+
+h1 ~ p 通用兄弟
+如上，ul 可以变色
+
+# 2.flex 布局
+
+```css
+     .box {
+        display: flex;
+      }
+
+      .box {
+        display: inline-flex;
+      }
+
+      .box {
+        display: -webkit-flex;
+        display: flex;
+      }
+
+            .box {
+        display: flex;
+        flex-direction: row;主轴
+        flex-wrap: nowrap; wrap  wrap-reverse(第一行在下面)  换行
+        flex-flow: row nowrap;//简写
+        justify-content: flex-start | flex-end | center | space-between | space-around;//主轴对齐方式
+        align-items: flex-start | flex-end | center | baseline | stretch; //侧轴对齐方式
+        /* baseline: 项目的第一行文字的基线对齐。
+stretch（默认值）：如果项目未设置高度或设为auto，将占满整个容器的高度。 */
+        align-content: flex-start | flex-end | center | space-between | space-around | stretch;//多根轴线的对齐方式。
+      }
+      .item {
+        order: 1;order属性定义项目的排列顺序。数值越小，排列越靠前，默认为0。
+        flex-grow: 1;flex-grow属性定义项目的放大比例，默认为0，即如果存在剩余空间，也不放大。
+        flex-shrink: <number>; /* default 1 */如果一个项目的flex-shrink属性为0，其他项目都为1，则空间不足时，前者不缩小。
+        flex-basis: ;flex-basis 指定了 flex 元素在主轴方向上的初始大小。
+         flex: none | [ <'flex-grow'> <'flex-shrink'>? || <'flex-basis'> ]  flex-grow, flex-shrink 和 flex-basis的简写默认值为0 1 auto  
+         align-self: auto | flex-start | flex-end | center | baseline | stretch;允许单个项目有与其他项目不一样的对齐方式，可覆盖align-items属性。默认值为auto，表示继承父元素的align-items属性，如果没有父元素，则等同于stretch。
+      }
+```
+
+flex 之后，float clear vertical-align 属性将失效
+
+
+# BFC
+https://www.smashingmagazine.com/2017/12/understanding-css-layout-block-formatting-context/
+https://blog.csdn.net/sinat_36422236/article/details/88763187
+块级格式化上下文，可以看做是页面中的一个小型布局，一旦创建BFC，任何元素都在其中，其不会影响外部，也不收外部影响。
+
+BFC的区域不会与float box重叠。
+
+布局规则： 内部box垂直方向一个接一个放置，同一个BFC两个相邻box的margin会重叠；
+创建float: float不是none， position不是static或者relative； display的值是inline-block、table-cell、flex、table-caption或者inline-flex；  overflow的值不是visible
+display:flow-root,这是一个新特性，且语义更明确，因为overflow可能别人会像为什么这里需要scroll或者auto。。。
+
+处理浮动溢出，可以添加
+```css
+.outer {
+    overflow: auto;
+}
+```
+
+进行两栏布局
+解决margin重叠
+清除浮动
+
+# 盒模型
+盒子有content  padding border margin
+分为IE盒模型(怪异模式下)  W3C盒模型(标准模式下)
+IE： width= content + padding + border
+W3c： width= content
+通过box-sizing: border-box/content-box
+
+# js几种类型以及类型检测
+https://www.cnblogs.com/onepixel/p/5126046.html
+Number Boolean  String Symbol Object null undefined Bigint
+
+1. typeof
+typeof +  
+number、boolean、symbol、string、object、undefined、function几种结果
+null是object  Array是object undefined是undefined NaN是number
+
+2. instanceof
+A是B的实例返回true否则false
+new Date() instanceof Object
+只要Object.prototype在new Date()实例的原型链上，就是true否则false
+但是原型链可变，所以会出问题
+
+```js
+let d = new Array()
+d.__proto__ = {}
+d.instanceof Array //false
+
+'aaa' instanceof String //非String创建,false
+Object.create(null) instanceof Object //false, 非Object创建
+```
+
+如果网页中包含多个框架，那实际上就存在两个以上不同的全局执行环境，从而存在两个以上不同版本的构造函数。
+```js
+let iframe = document.createElement('iframe')
+    document.body.appendChild(iframe)
+    xArray = window.frames[0].Array
+    let arr = new xArray(1, 2, 3)
+console.log(arr instanceof Array)
+```
+
+对于数组Array.isArray()判断是否为Array
+
+3. constructor
+```js
+function F() {}
+let f = new F()
+console.log(f.constructor === F)
+```
+F.prototype上有constructor属性，指向F
+当 F 作为构造函数来创建对象时，原型上的 constructor 就被遗传到了新创建的对象上， 从原型链角度讲，构造函数 F 就是新对象的类型。
+```js
+console.log(''.constructor === String)
+console.log(new Number(1).constructor === Number)
+console.log(true.constructor === Boolean)
+
+console.log(null.constructor === String) //null undefined无constructor
+console.log(undefined.constructor === Number)
+
+如果修改了F.prototype={}，就不成立了
+```
+
+4. toString
+返回[object type], type是对象的类型
+```js
+var toString = Object.prototype.toString;
+
+toString.call(new Date); // [object Date]
+toString.call(new String); // [object String]
+toString.call(Math); // [object Math]
+
+//Since JavaScript 1.8.5
+toString.call(undefined); // [object Undefined]
+toString.call(null); // [object Null]
+
+```
+
+# 深拷贝 浅拷贝
+浅拷贝直接复制引用
+
+深拷贝
+https://github.com/axuebin/articles/issues/20
+1.JSON方法  
+可以相互转换，但是undefined function symbol在转换中忽略，会带来一定问题
+2. 递归
+```js
+function deepClone(source) {
+    let targetObj = null
+
+    if (Array.isArray(source)) targetObj = []
+    else targetObj = {}
+
+    for (let key in source) {
+        if (source.hasOwnProperty(key)) {
+            if (source[key] && typeof source[key] === 'object') {
+                if (Array.isArray(source[key])) {
+                    targetObj[key] = []
+                } else {
+                    targetObj[key] = {}
+                }
+
+                targetObj[key] = deepClone(source[key])
+
+            } else {
+                targetObj[key] = source[key]
+            }
+        }
+    }
+
+    return targetObj
+}
+```
+
+concat slice  Object.assign() ...实现第一层的深拷贝
+
+第一层的深拷贝
+```js
+function shallowClone(source) {
+    const targetObj = source.constructor === Array ? [] : {}
+    for (let key in source) {
+        if (source.hasOwnProperty(key)) {
+            targetObj[key] = source[key]
+        }
+    }
+    return targetObj
+}
+```
+
+# 作用域
+https://juejin.cn/post/6844903474212143117#comment
+
+执行上下文：
+https://juejin.cn/post/6844903682283143181
+execution context is an abstract concept of an environment where the Javascript code is evaluated and executed。Whenever any code is run in JavaScript, it’s run inside an execution context.
+共有三种上下文：
+全局上下文The code that is not inside any function is in the global execution context. It performs two things: it creates a global object which is a window object (in the case of browsers) and sets the value of this to equal to the global object. There can only be one global execution context in a program.
+函数上下文Each function has its own execution context, but it’s created when the function is invoked or called.
+eval上下文
+
+Execution Stack：在代码执行阶段用来存储执行上下文。先把全局上下文放入其中，遇到函数调用就放入函数上下文。当函数执行完成，上下文从栈pop，
+
+如何创建执行上下文：
+The execution context is created in two phases: 1) Creation Phase and 2) Execution Phase.
+创建阶段：LexicalEnvironment component is created.
+VariableEnvironment component is created.
+创建词法环境组件，创建变量环境组件
+```js
+ExecutionContext = {
+  LexicalEnvironment = <ref. to LexicalEnvironment in memory>,
+  VariableEnvironment = <ref. to VariableEnvironment in  memory>,
+}
+```
+词法环境是一种持有标识符—变量映射的结构。（这里的标识符指的是变量/函数的名字，而变量是对实际对象[包含函数类型对象]或原始数据的引用）。
+对于下面
+```js
+var a = 20;
+var b = 40;
+function foo() {
+  console.log('bar');
+}
+
+lexicalEnvironment = {
+  a: 20,
+  b: 40,
+  foo: <ref. to foo function>
+}
+```
+每个词法环境由环境记录、外部引用、this绑定组成
+环境记录存储变量和函数声明, 
+环境记录有两类：Declarative environment record声明式(函数上下文)，Object environment record对象式(全局上下文)
+外部引用： 就是当前词法环境找不到变量，可以前往可以到达的环境中寻找
+this绑定：设置this值， 全局上下文this=window。对于函数执行上下文，In the function execution context, the value of this depends on how the function is called. If it is called by an object reference, then the value of this is set to that object, otherwise, the value of this is set to the global object or undefined(in strict mode). 
+```js
+GlobalExectionContext = {
+  LexicalEnvironment: {
+    EnvironmentRecord: {
+      Type: "Object",
+      // Identifier bindings go here
+    }
+    outer: <null>,
+    this: <global object>
+  }
+}
+FunctionExectionContext = {
+  LexicalEnvironment: {
+    EnvironmentRecord: {
+      Type: "Declarative",
+      // Identifier bindings go here
+    }
+    outer: <Global or outer function environment reference>,
+    this: <depends on how function is called>
+  }
+}
+```
+
+变量环境
+变量环境也是词法环境，所以之前那些他都有，区别在，词法环境存储函数声明 let const，变量环境存储var
+
+执行阶段
+所有这些变量都会被赋值，代码最终也会被执行。
+
+例子：
+```js
+let a = 20;
+const b = 30;
+var c;
+function multiply(e, f) {
+ var g = 20;
+ return e * f * g;
+}
+c = multiply(20, 30);
+```
+先创建全局上下文，像这样:
+```js
+GlobalExectionContext = {
+  LexicalEnvironment: {
+    EnvironmentRecord: {
+      Type: "Object",
+      // Identifier bindings go here
+      a: < uninitialized >,
+      b: < uninitialized >,
+      multiply: < func >
+    }
+    outer: <null>,
+    ThisBinding: <Global Object>
+  },
+  VariableEnvironment: {
+    EnvironmentRecord: {
+      Type: "Object",
+      // Identifier bindings go here
+      c: undefined,
+    }
+    outer: <null>,
+    ThisBinding: <Global Object>
+  }
+}
+```
+执行阶段完成赋值，像这样
+```js
+GlobalExectionContext = {
+LexicalEnvironment: {
+    EnvironmentRecord: {
+      Type: "Object",
+      // Identifier bindings go here
+      a: 20,
+      b: 30,
+      multiply: < func >
+    }
+    outer: <null>,
+    ThisBinding: <Global Object>
+  },
+VariableEnvironment: {
+    EnvironmentRecord: {
+      Type: "Object",
+      // Identifier bindings go here
+      c: undefined,
+    }
+    outer: <null>,
+    ThisBinding: <Global Object>
+  }
+}
+```
+遇到函数调用，创建上下文，再执行上下文
+```js
+FunctionExectionContext = {
+LexicalEnvironment: {
+    EnvironmentRecord: {
+      Type: "Declarative",
+      // Identifier bindings go here
+      Arguments: {0: 20, 1: 30, length: 2},
+    },
+    outer: <GlobalLexicalEnvironment>,
+    ThisBinding: <Global Object or undefined>,
+  },
+VariableEnvironment: {
+    EnvironmentRecord: {
+      Type: "Declarative",
+      // Identifier bindings go here
+      g: undefined
+    },
+    outer: <GlobalLexicalEnvironment>,
+    ThisBinding: <Global Object or undefined>
+  }
+}
+```
+
+```js
+FunctionExectionContext = {
+LexicalEnvironment: {
+    EnvironmentRecord: {
+      Type: "Declarative",
+      // Identifier bindings go here
+      Arguments: {0: 20, 1: 30, length: 2},
+    },
+    outer: <GlobalLexicalEnvironment>,
+    ThisBinding: <Global Object or undefined>,
+  },
+VariableEnvironment: {
+    EnvironmentRecord: {
+      Type: "Declarative",
+      // Identifier bindings go here
+      g: 20
+    },
+    outer: <GlobalLexicalEnvironment>,
+    ThisBinding: <Global Object or undefined>
+  }
+}
+```
+执行完，返回值存储在c中，更新全局上下文
+let const最初是未初始化，var是未定义，所以var未赋值使用不会报错，let const会
+
+
+# IIFE: 
+https://developer.mozilla.org/en-US/docs/Glossary/IIFE
+https://benalman.com/news/2010/11/immediately-invoked-function-expression/#iife
+https://zhuanlan.zhihu.com/p/74440468
+```js
+((i) => {
+    不影响外部，不受外部影响
+})(i)
+
+let age = 10;
+((age) => {
+    age = 3
+    console.log(age, 'inner')//3
+})(age)
+console.log(age, 'outer')//13
+```
+
+# 原型
+https://github.com/mqyqingfeng/Blog/issues/15
+1.工厂模式
+```js
+function createPerson(name) {
+    let o = new Object()
+    o.name = name
+    o.getName = function() {
+        console.log(this.name)
+    }
+
+    return o
+}
+
+let p = createPerson('aaa')
+p.getName()
+```
+不能知道对象的类型是什么
+
+2. 构造函数模式
+创建一个this， 新对象的prototype为构造函数的prototype， this被赋值为新对象，执行代码，返回对象
+```js
+function Person(name) {
+    this.name = name
+    this.getName = function () {
+      console.log(this.name)
+    }
+}
+这样会多次创建函数
+
+
+
+function Person(name) {
+    this.name = name
+    this.getName = getName
+}
+
+function getName() {
+    console.log(this.name)
+}
+
+let p = new Person('aaa')
+p.getName()
+封装性弱，但解决了每个方法被重新创建的问题
+```
+
+3. 原型模式
+```js
+function Person(name) {
+
+}
+
+Person.prototype.name = 'aaa'
+Person.prototype.getName = function() {
+    console.log(this.name)
+}
+
+let p = new Person()
+p.getName()
+方法不会被重建，但是所有属性和方法会被共享，且不能初始化
+```
+
+优化
+```js
+function Person(name) {
+
+}
+
+Person.prototype = {
+    name: 'bbb',
+    getName: function() {
+        console.log(this.name)
+    }
+}
+
+let p = new Person()
+p.getName()
+改变了原型，丢失了constructor属性
+```
+
+4. 组合模式
+构造函数和原型相结合
+```js
+function Person(name) {
+    this.name = name
+}
+
+Person.prototype = {
+    constructor: Person,
+    getName: function() {
+        console.log(this.name)
+    }
+}
+
+let p = new Person('ccc')
+p.getName()
+```
+
+5. 动态原型模式
+```js
+function Person(name) {
+    this.name = name
+    if (typeof this.getName !== 'function') {
+        Person.prototype.getName = function() {
+            console.log(this.name)
+        }
+    }
+}
+```
+
+6. 盗用构造函数
+```js
+function SuperType() {
+    this.colors = [1, 2, 3]
+}
+
+function SubType() {
+    SuperType.call(this)
+}
+
+let sub = new SubType()
+sub.colors.push(6)
+console.log(sub.colors)
+
+let superA = new SuperType()
+console.log(superA.colors)
+```
+不能访问父类原型上的方法，只能用构造函数模式
+
+7. 组合继承
+盗用构造函数+ 原型
+```js
+function SuperType(name) {
+    this.name = name
+    this.colors = [1, 2, 3]
+}
+
+SuperType.prototype.sayName = function() {
+    console.log(this.name)
+}
+
+function SubType(name, age) {
+    SuperType.call(this, name)
+    this.age = age
+}
+
+let sub = new SubType('aaa', 22)
+
+```
+
+8. 原型式继承
+```js
+let person = {
+
+}
+Object.create(person, {
+
+})
+```
+
+9. 寄生式继承
+增强了对象
+```js
+function createAnother(original) {
+    let clone = Object.create(original)
+    clone.sayHi = function() {
+
+    }
+
+    return clone
+}
+
+```
+
+实现new
+```js
+function create() {
+    var obj = new Object()
+    Con = [].shift.call(arguments);
+    obj.__proto__ = Con.prototype
+    let o = Con.apply(obj, arguments)
+    if (typeof o === 'object') return o
+    return obj
+}
+
+function Foo(name, age) {
+    this.name = name
+    this.age = age
+}
+// let foo = new Foo('aaa', 11)
+let foo = create(Foo, 'aaa', 11)
+```
+优化create
+```js
+function create() {
+    Con = [].shift.call(arguments)
+    let obj = Object.create(Con.prototype)
+    let o = Con.apply(obj, arguments)
+    return o instanceof Object ? o : obj
+}
+```
+typeof null bug原因：
+JavaScript 中的值是由一个表示类型的标签和实际数据值表示的。对象的类型标签是 0。由于 null 代表的是空指针（大多数平台下值为 0x00），因此，null 的类型标签是 0，typeof null 也因此返回 "object"
+
+手写instance
+```js
+function instance_of(L, R) {
+    let O = R.prototype
+    L = L.__proto__
+    while (1) {
+        if (L === null) return false
+        if (L === O) return true
+        L = L.__proto__
+    }
+}
+```
+Object instanceof Object //true
+Function instanceof Function //true
+构造函数.__proto__.constructor === Function
+
+类的实现
+https://juejin.cn/post/6844903984335945736#heading-28
+
+# this
+https://juejin.cn/post/6844903746984476686
+全局上下文，无论是否严格，this都是window
+```js
+// 非严格模式
+var name = 'window';
+var doSth = function(){
+    console.log(this.name);
+}
+doSth(); // 'window'
+```
+```js
+// 非严格模式
+let name2 = 'window2';
+let doSth2 = function(){
+    console.log(this === window);
+    console.log(this.name2);
+}
+doSth2() // true, undefined
+
+```
+
+```js
+// 严格模式
+'use strict'
+var name = 'window';
+var doSth = function(){
+    console.log(typeof this === 'undefined');
+    console.log(this.name);
+}
+doSth(); // true，// 报错，因为this是undefined
+```
+
+```js
+var name = 'window';
+var doSth = function(){
+    console.log(this.name);
+}
+var student = {
+    name: '若川',
+    doSth: doSth,
+    other: {
+        name: 'other',
+        doSth: doSth,
+    }
+}
+student.doSth(); // '若川'
+student.other.doSth(); // 'other'
+// 用call类比则为：
+student.doSth.call(student);
+// 用call类比则为：
+student.other.doSth.call(student.other);
+```
+call的thisArg如果是null undefined在非严格下是window， 如果是原始类型会封装为对象（非严格）
+
+对于箭头函数
+```js
+var name = 'window';
+var student = {
+    name: '若川',
+    doSth: function(){
+        // var self = this;
+        var arrowDoSth = () => {
+            // console.log(self.name);
+            console.log(this.name);
+        }
+        arrowDoSth();
+    },
+    arrowDoSth2: () => {
+        console.log(this.name);
+    }
+}
+student.doSth(); // '若川'
+student.arrowDoSth2(); // 'window'
+```
+对于DOM事件
+onclick和addEventerListener是指向绑定事件的元素
+ev.currentTarget是绑定事件的元素，而ev.target是当前触发事件的元素。比如这里的分别是ul和li。 但也可能点击的是ul，这时ev.currentTarget和ev.target就相等了。
+
+
+# call apply bind
+call
+```js
+Function.prototype.call2 = function(context, ...args) {
+    if (context === null) context = window
+    context.fn = this
+    let res = context.fn(...args)
+    delete context.fn
+    return res
+}
+
+var obj = {
+    value: 1
+}
+
+var value = 3;
+
+function bar(name, age) {
+    console.log(this.value)
+    console.log(name, age)
+    return {
+        name: name,
+        age
+    }
+}
+
+console.log(bar.call2(null, 'kevin', 18))
+```
+
+apply
+```js
+Function.prototype.apply2 = function(context, arr) {
+    context = context ?? window
+    context.fn = this
+    let res = context.fn(...arr)
+    delete context.fn
+    return res
+}
+```
+
+bind
+```js
+Function.prototype.bind2 = function(context) {
+    if (typeof this !== 'function') {
+        throw new Error('wrong')
+    }
+
+    var self = this
+    var args = Array.prototype.slice.call(arguments, 1)
+
+    var fNOP = function() {}
+    var fBound =  function() {
+        var bindArgs = Array.prototype.slice.call(arguments)
+        return self.call(this instanceof fNOP ? this : context, args.concat(bindArgs))
+    }
+
+    fNOP.prototype = this.prototype
+    fBound.prototype = new fNOP()
+
+    return fBound
+}
+
+let foo = {
+    value: 1
+}
+
+function bar() {
+    this.age = 11
+    console.log(this.value)
+}
+
+bar.prototype = {
+    habit: 'tr'
+}
+
+let fun = bar.bind2(foo)
+console.log(new fun())
+console.log(new fun().habit)
+```
+
+# js执行机制
+https://juejin.cn/post/6844903512845860872
+同步和异步任务分别进入不同的执行"场所"，同步的进入主线程，异步的进入Event Table并注册函数。
+当指定的事情完成时，Event Table会将这个函数移入Event Queue。
+主线程内的任务执行完毕为空，会去Event Queue读取对应的函数，进入主线程执行。
+上述过程会不断重复，也就是常说的Event Loop(事件循环)。
+事件循环的顺序，决定js代码的执行顺序。进入整体代码(宏任务)后，开始第一次循环。接着执行所有的微任务。然后再次从宏任务开始，找到其中一个任务队列执行完毕，再执行所有的微任务。
+
+一旦setInterval的回调函数fn执行时间超过了延迟时间ms，那么就完全看不出来有时间间隔了。
+
+macro-task(宏任务)：包括整体代码script，setTimeout，setInterval
+micro-task(微任务)：Promise，process.nextTick
+
+event loop:
+https://nodejs.dev/learn/the-nodejs-event-loop
+
+js timer:
+https://johnresig.com/blog/how-javascript-timers-work/
+
+var let const
+
+闭包
+
+函数值传递
+https://stackoverflow.com/questions/6605640/javascript-by-reference-vs-by-value
+
+原型图片
+![这是图片](/prototype.png)
+
+
+
+
+
