@@ -1,10 +1,18 @@
 <html>
-    <body>
-        <p id="demo"></p>
-        <script type="text/javascript">
-            var x = 10;
-            var y = "10";
-            document.getElementById("demo").innerHTML = Boolean(x == y);
-        </script>
-    </body>
+
+<body>
+  <p id="demo"></p>
+  <button id="but">aaa</button>
+  <script type="text/javascript">
+    but.addEventListener('click', () => {
+      const state = { 'page_id': 1, 'user_id': 5 }
+      const title = ''
+      const url = 'hello-world.html'
+
+      history.pushState(state, title, url)
+    })
+
+  </script>
+</body>
+
 </html>
