@@ -15,9 +15,6 @@ const router = createRouter({
     ]
 })
 
-router.beforeEach((to, from, next) => {
-    console.log(to.matched)
-    console.log(to.fullPath)
-})
+
 
 export default router

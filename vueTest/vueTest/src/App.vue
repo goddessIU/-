@@ -19,4 +19,26 @@ const toA = () => {
   <router-view></router-view>
 </template>
 
+<script>
+export default {
+    data() {
+      return {
+        mm: '111'
+      }
+    },
+    beforeCreate() {
+        console.log(this, '***')
+    },
+    created() {
+      console.log(this, '##E')
+      console.log(this.mm)
+    },
+    beforeMount() {
+      console.log(this.$el)
+    },
+    mounted() {
+      console.log(this.$el)
+    }
+}
+</script>
 
