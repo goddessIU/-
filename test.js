@@ -1,32 +1,20 @@
-function Element(tagName, props, children) {
-    this.tagName = tagName
-    this.props = props
-    this.children = children
-}
+function reactive(obj) {
+    if (typeof obj !== 'object' || obj === null) return;
 
-Element.prototype.render = function() {
-    var el = document.createElement(this.tagName)
-    var props = this.props
-
-    for (var propName in props) {
-        var propValue = props[propName]
-        el.setAttribute(propName, propValue)
-    }
-
-    var children = this.children || []
-
-    children.forEach(function(child) {
-        var childEl = (child instanceof Element)
-            ? child.render()
-            : document.createTextNode(child)
-        
-        el.appendChild(childEl)
+    const observed = new Proxy(obj, {
+        get(target, key, receiver) {
+            const res = Reflect.get(...arguments)
+            return typeof res === 'object' ? observed(res) : res
+        },
+        set(target, key, value, receiver) {
+            const res = Reflect.set(...arguments)
+            return res
+        },
+        deleteProperty(target, key) {
+            const res = Reflect.deleteProperty(...arguments)
+            return res
+        } 
     })
 
-    return el
+    return observed
 }
-
-module.exports = function(tagName, props, children) {
-    return new Element(tagName, props, children)
-}
-

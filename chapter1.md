@@ -841,13 +841,15 @@ https://juejin.cn/post/6844903512845860872
 macro-task(宏任务)：包括整体代码script，setTimeout，setInterval
 micro-task(微任务)：Promise，process.nextTick
 
-event loop:
-https://nodejs.dev/learn/the-nodejs-event-loop
+# Promise
+Promise.all()
+Promise.race()
+https://juejin.cn/post/7038371452084551694#heading-2
 
-js timer:
-https://johnresig.com/blog/how-javascript-timers-work/
-
-var let const
+# ES6
+https://juejin.cn/post/6844903775329583112#heading-1
+var定义的变量是函数级作用域
+let const 块级作用域
 
 闭包
 
