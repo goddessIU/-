@@ -6,31 +6,54 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
   <style>
-      #a {
-        display: flex;
-        width: 500px;
-        height: 300px;
-        background-color: blue;
-        align-items: center;
-
-      }
-      #b {
-        width: 100px;
-        height: 100px;
-        background-color: red;
-        flex-grow: 1;
-      }
-      #c {
-        width: 100px;
-        height: 100px;
-        background-color: green;
-      }
-    </style>
-    <body>
-        <div id="a">
-            <div id="b"></div>
-            <div id="c"></div>
-        </div>
-    </body>
-    
+    #parent {
+      width: 100%;
+      height: 100%;
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      grid-template-rows: 100px auto 50px;
+      grid-template-areas: 
+        "header header"
+        "aside main"
+        "footer footer";
+    }
+    #parent > div {
+      border: 1px solid #000;
+    }
+    #top {
+      grid-area: header;
+    }
+    #left {
+      grid-area: aside;
+    }
+    #right {
+      grid-area: main;
+    }
+    #bottom {
+      grid-area: footer;
+    }
+  </style>
+</head>
+<body>
+  <div id="parent">
+      <div id="top">top</div>
+      <div id="left">left</div>
+      <div id="right">right</div>
+      <div id="bottom">bottom</div>
+  </div>
+  </body>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 </html>
