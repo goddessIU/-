@@ -3,44 +3,38 @@
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=0.5">
   <title>Document</title>
+  <link rel="stylesheet" href="">
+  <script></script>
   <style>
-    #parent {
-      width: 100%;
-      height: 100%;
-      display: grid;
-      grid-template-columns: 200px 1fr;
-      grid-template-rows: 100px auto 50px;
-      grid-template-areas: 
-        "header header"
-        "aside main"
-        "footer footer";
+    .parent {
+      /* position: relative; */
+      width: 500px;
+      height: 300px;
+      background-color: blue;
     }
-    #parent > div {
-      border: 1px solid #000;
-    }
-    #top {
-      grid-area: header;
-    }
-    #left {
-      grid-area: aside;
-    }
-    #right {
-      grid-area: main;
-    }
-    #bottom {
-      grid-area: footer;
+    .son {
+      /* position: absolute; */
+      /* top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0; */
+      background-color: red;
+      width: 200px;
+      height: 100px;
+      margin: auto;
     }
   </style>
 </head>
 <body>
-  <div id="parent">
-      <div id="top">top</div>
-      <div id="left">left</div>
-      <div id="right">right</div>
-      <div id="bottom">bottom</div>
+  <div class="parent">
+    <div class="son"></div>
   </div>
+
+  <script>
+    
+  </script>
   </body>
   
   

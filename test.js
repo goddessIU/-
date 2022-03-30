@@ -1,20 +1,20 @@
-function reactive(obj) {
-    if (typeof obj !== 'object' || obj === null) return;
+var myTask = `
+    onmessage = function (e) {
+        var data = e.data;
+        data.push('hello');
+        console.log('worker:', data); // worker: [1, 2, 3, "hello"]
+        postMessage(data);
+    };
+`;
 
-    const observed = new Proxy(obj, {
-        get(target, key, receiver) {
-            const res = Reflect.get(...arguments)
-            return typeof res === 'object' ? observed(res) : res
-        },
-        set(target, key, value, receiver) {
-            const res = Reflect.set(...arguments)
-            return res
-        },
-        deleteProperty(target, key) {
-            const res = Reflect.deleteProperty(...arguments)
-            return res
-        } 
-    })
+var blob = new Blob([myTask]);
+var myWorker = new Worker(window.URL.createObjectURL(blob));
 
-    return observed
-}
+myWorker.onmessage = function (e) {
+    var data = e.data;
+    console.log('page:', data); // page: [1, 2, 3, "hello"]
+    console.log('arr:', arr); // arr: [1, 2, 3]
+};
+
+var arr = [1,2,3];
+myWorker.postMessage(arr);
