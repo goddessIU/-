@@ -1,20 +1,15 @@
-var myTask = `
-    onmessage = function (e) {
-        var data = e.data;
-        data.push('hello');
-        console.log('worker:', data); // worker: [1, 2, 3, "hello"]
-        postMessage(data);
-    };
-`;
-
-var blob = new Blob([myTask]);
-var myWorker = new Worker(window.URL.createObjectURL(blob));
-
-myWorker.onmessage = function (e) {
-    var data = e.data;
-    console.log('page:', data); // page: [1, 2, 3, "hello"]
-    console.log('arr:', arr); // arr: [1, 2, 3]
-};
-
-var arr = [1,2,3];
-myWorker.postMessage(arr);
+let time = Date.now()
+function mm() {
+    setTimeout(() => {
+        console.log(2)
+    }, 1000)
+    
+    for (let i = 1; i <= 1000000000; i++) {
+        
+        if (i === 1000000000) {
+            console.log(3)
+        }
+    }
+}
+mm()
+console.log(Date.now() - time)
