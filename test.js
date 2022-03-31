@@ -1,15 +1,10 @@
-let time = Date.now()
-function mm() {
-    setTimeout(() => {
-        console.log(2)
-    }, 1000)
-    
-    for (let i = 1; i <= 1000000000; i++) {
+Promise.myRace = function(promises) {
+    return new Promise((res, rej) => {
+        let len = promises.length
+        let count = 0
         
-        if (i === 1000000000) {
-            console.log(3)
-        }
-    }
+        promises.forEach((p, i) => {
+            Promise.resolve(p).then(res).catch(rej)
+        })
+    })
 }
-mm()
-console.log(Date.now() - time)
