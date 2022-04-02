@@ -1,10 +1,2 @@
-Promise.myRace = function(promises) {
-    return new Promise((res, rej) => {
-        let len = promises.length
-        let count = 0
-        
-        promises.forEach((p, i) => {
-            Promise.resolve(p).then(res).catch(rej)
-        })
-    })
-}
+const arr = [1, 2, 3]
+console.log(arr.find((item) => item > 2))
