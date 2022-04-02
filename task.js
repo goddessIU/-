@@ -1,0 +1,1 @@
+console.log(decodeURI('https://github.com/goddesslU/vue3-eleme/blob/main/%E9%A1%B9%E7%9B%AE%E5%A4%8D%E7%9B%98.md'))
