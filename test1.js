@@ -1,3 +1,5 @@
-new Promise((res, rej) => {
-    res(1)
-}).then(res => console.log(res)).then(res => console.log(res))
+let line = ''
+while (line = (read_line()) !== '') {
+    let h = line.length
+    console.log(h + 1)
+}

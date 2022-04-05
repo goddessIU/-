@@ -6,34 +6,52 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
   <style>
-    .parent {
+    #app {
       width: 300px;
       height: 200px;
-      display: flex;
-      flex-direction: column;
-      /* align-items: center; */
-      justify-content: center;
-      background-color: red;
-      
-    }
-    .son {
-      float: left;
-      margin-left: 150px;
-      left: 30px;
-      width: 20px;
       background-color: blue;
     }
   </style>
 </head>
 <body>
-  <div class="parent">
-    <div class="son">aaa</div>
-  </div>
+  <div id="app">hello</div>
   <script>
-    new Promise((res, rej) => {
-      let t = axios.get()
-      resolve(t)
-    }).then(h => console.log)
+    let node = document.querySelector('#app')
+    let count = 0
+    function addNode(e) {
+      node.textContent = count++
+      return count
+    }
+    let f = debounce(addNode, 1000, true)
+    node.onclick = f
+    f.cancel()
+    function debounce(func, wait, immediate) {
+    let timeout, result
+    let debounced =  function() {
+        let context = this
+        let args = arguments
+        if (immediate) {
+            var callNow = !timeout
+            timeout = setTimeout(function() {
+                timeout = null
+            }, wait)
+            if (callNow) result = func.apply(context, args)
+        } else {
+            clearTimeout(timeout)
+            timeout = setTimeout(function() {
+                func.apply(context, args)
+            }, wait)
+        }
+        return result
+    }
+    debounced.cancel = function() {
+        clearTimeout(timeout)
+        timeout = null
+    }
+    return debounced
+}
+
+
   </script>
 </body>
 </html>
