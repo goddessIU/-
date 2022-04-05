@@ -1,16 +1,12 @@
+let url = 'https://www.zhihu.com/search?type=content&q=iu'
 
-function objectFactory() {
-    let obj = new Object()
-    const Constructor = [].shift.call(arguments)
-    obj.__proto__ = Constructor.prototype
-    let res = Constructor.apply(obj, arguments)
-
-    return typeof res === 'object' ? res || obj : obj 
+var keyWords = url.split('?')[1].split('&')
+let obj = {}
+for (let i = 0; i < keyWords.length; i++) {
+    if (keyWords[i].includes('=')) {
+        let [key, val] = keyWords[i].split('=')
+        obj[key] = val
+    }
 }
 
-function person(name, age) {
-    this.name = name
-    this.age = age
-}
-let p = objectFactory(person, 'a', 1)
-console.log(p)
+console.log(obj)
