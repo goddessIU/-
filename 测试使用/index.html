@@ -1,48 +1,35 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
+  <head>
+    <meta charset="utf-8" />
+  </head>
+  <body>
+    <div id="app">
+      <button id="run">运行</button>
+      <button id="stop">停止</button>
+    </div>
+    <script>
+      const arr = []
+      for (let i = 0; i < 200000; i++) {
+        arr.push(i)
+      }
+      let newArr = []
 
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-  <style>
-    .parentBox {
-      height: 100vh;
-      display: flex;
-      justify-content: flex-start;
-      align-items: flex-start;
-      width: 100vw;
-    }
+      function run() {
+        newArr = newArr.concat(arr)
+      }
 
-    .box {
-      height: 50px;
-    }
+      let clearRun
 
-    .boxA {
-      background-color: red;
-      flex: 1;
-    }
+      document.querySelector('#run').onclick = function() {
+        clearRun = setInterval(() => {
+          run()
+        }, 1000)
+      }
 
-    .boxB {
-      background-color: yellow;
-      align-self: flex-end;
-      flex: 2;
-    }
-
-    .boxC {
-      background-color: blue;
-      flex: 3;
-    }
-  </style>
-</head>
-
-<body>
-   <div class="parentBox">
-      <div class="boxA box"></div>
-      <div class="boxB box"></div>
-      <div class="boxC box"></div>
-     </div>
-</body>
-
+      document.querySelector('#stop').onclick = function() {
+        clearInterval(clearRun)
+      }
+    </script>
+  </body>
 </html>

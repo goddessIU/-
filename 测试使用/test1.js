@@ -1,41 +1,25 @@
-class EventEmitter {
-    constructor() {
-        this.cache = {}
-    }
-    on(name, fn) {
-        if (!this.cache[name]) {
-            this.cache[name] = []
-        }
-        this.cache[name].push(fn)
-    }
-    off(name, fn) {
-        let tasks = this.cache[name]
-        if (tasks) {
-            const index = tasks.findIndex(f => f === fn || f.callback === fn)
-            if (index >= 0) {
-                tasks.splice(index, 1)
+function deepClone(obj) {
+    if (typeof obj !== 'object') return obj
+    let clone = Array.isArray(obj) ? [] : {}
+    for (let key in obj) {
+        if (obj.hasOwnProperty(key)) {
+            if (typeof obj[key] === 'object') {
+                clone[key] = deepClone(obj[key])
+            } else {
+                clone[key] = obj[key]
             }
         }
     }
-    emit(name, once = false, ...args) {
-        let arrs = this.cache[name].slice()
-        arrs.forEach(f => {
-            f(...args)
-        })
-        if (once) {
-            delete this.cache[name]
-        }
+    return clone
+}
+
+let obj1 = {
+    name: 'a',
+    friend: {
+        name: 'ming',
+        age: 3
     }
 }
-
-let eventBus = new EventEmitter()
-let fn1 = function(name, age) {
-	console.log(`${name} ${age}`)
-}
-let fn2 = function(name, age) {
-	console.log(`hello, ${name} ${age}`)
-}
-eventBus.on('aaa', fn1)
-eventBus.on('aaa', fn2)
-eventBus.emit('aaa', false, '布兰', 12)
-
+let obj2 = deepClone(obj1)
+obj1.friend.age = 6
+console.log(obj2)
