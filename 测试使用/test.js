@@ -1,12 +1,14 @@
-
-
-const promise1 = Promise.resolve(3);
-const promise2 = 42;
-const promise3 = new Promise((resolve, reject) => {
-  setTimeout(resolve, 100, 'foo');
-});
-const promise4 = 2
-
-Promise.allSettled([promise1, promise2, promise3, promise4]).then(val => {
-    console.log(val)
-})
+function render(template, data) {
+    const reg = /\{\{(\w+)\}\}/
+    if (reg.test(template)) {
+        const name = reg.exec(template)[1]
+        template = template.replace(reg, data[name])
+        return render(template, data)
+    }
+}
+let template = '我是{{name}}，年龄{{age}}，性别{{sex}}';
+let person = {
+    name: '布兰',
+    age: 12
+}
+render(template, person); // 我是布兰，年龄12，性别undefined
