@@ -1,25 +1,25 @@
-function deepClone(obj) {
-    if (typeof obj !== 'object') return obj
-    let clone = Array.isArray(obj) ? [] : {}
-    for (let key in obj) {
-        if (obj.hasOwnProperty(key)) {
-            if (typeof obj[key] === 'object') {
-                clone[key] = deepClone(obj[key])
-            } else {
-                clone[key] = obj[key]
-            }
+function clone(target, map = new WeakMap()) {
+    if (typeof target === 'object') {
+        let cloneTarget = Array.isArray(target) ? [] : {}
+        if (map.get(target)) {
+            return target
+        } 
+        map.set(target, cloneTarget)
+        for (const key in target) {
+            cloneTarget[key] = clone(target[key], map)
         }
-    }
-    return clone
-}
-
-let obj1 = {
-    name: 'a',
-    friend: {
-        name: 'ming',
-        age: 3
+        return cloneTarget
+    } else {
+        return target
     }
 }
-let obj2 = deepClone(obj1)
-obj1.friend.age = 6
-console.log(obj2)
+const target = {
+    field1: 1,
+    field2: undefined,
+    field3: {
+        child: 'child'
+    },
+    field4: [2, 4, 8]
+};
+target.target = target;
+console.log(clone(target))
