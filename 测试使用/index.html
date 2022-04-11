@@ -1,61 +1,36 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-  <style>
-    div{
-      width:100px;
-      height:1000px;
-      display: inline-block;
-    }
-    .box1{
-      color:red;
-      background:#00FFFF;
-    }
-    .box2{
-      /* margin-left:-105px; */
-      background:#20aa5e;
-    }
-  </style>
-  
-  
-</head>
-<body>
-  <div class="box1">box1</div>
-  <div class="box2">box2</div>
-</body>
+<html>
+    <head>
+        <style>
+            p { height: 30px; width: 150px; background-color: #ccf; }
+            div {height: 30px; width: 150px; background-color: #cfc; }
+        </style>
+    </head>
+    <body>
+        <div>
+            <p>paragraph</p>
+        </div>
+        <script>
+            const p = document.querySelector('p')
+            p.addEventListener("click", (event) => {
+              alert("我是p元素上被绑定的第一个监听函数");
+            }, false);
 
-<script>
-  const imgs = document.querySelectorAll('img')
-const viewHeight = window.innerHeight || document.documentElement.clientHeight
-let num = 0
+            p.addEventListener("click", (event) => {
+              alert("我是p元素上被绑定的第二个监听函数");
+              event.stopImmediatePropagation();
+              // 执行stopImmediatePropagation方法,阻止click事件冒泡,并且阻止p元素上绑定的其他click事件的事件监听函数的执行.
+            }, false);
 
-function lazyload() {
-  console.log(this)
-    for (let i = num; i < imgs.length; i++) {
-        let distance = viewHeight - imgs[i].getBoundingClientRect().top
-        if (distance >= 0) {
-            imgs[i].src = imgs[i].getAttribute('data-src')
-            num = i + 1
-        }
-    }
-}
+            p.addEventListener("click",(event) => {
+              alert("我是p元素上被绑定的第三个监听函数");
+              // 该监听函数排在上个函数后面，该函数不会被执行
+            }, false);
 
-function debouce(fn, delay) {
-    let timer 
-    return function(...args) {
-        if (timer) clearTimeout(timer)
-        timer = setTimeout(() => {
-            console.log(this, '*')
-            fn(...args)
-        }, delay)
-    }
-}
-
-window.onload = lazyload
-window.addEventListener('scroll', debouce(lazyload, 600), false)
-</script>
+            document.querySelector("div").addEventListener("click", (event) => {
+              alert("我是div元素,我是p元素的上层元素");
+              // p元素的click事件没有向上冒泡，该函数不会被执行
+            }, false);
+        </script>
+    </body>
 </html>
