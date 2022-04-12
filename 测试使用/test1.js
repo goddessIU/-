@@ -1,1 +1,9 @@
-console.log(/^\d+$/.test(1.222))
+function render(template, data) {
+    const reg = /\{\{(\w+)\}\}/
+    if (reg.test(template)) {
+        const name = reg.exec(template)[1]
+        template = template.replace(reg, data[name])
+        return render(template, data)
+    }
+    return template
+}

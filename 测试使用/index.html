@@ -1,36 +1,21 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <style>
-            p { height: 30px; width: 150px; background-color: #ccf; }
-            div {height: 30px; width: 150px; background-color: #cfc; }
-        </style>
-    </head>
-    <body>
-        <div>
-            <p>paragraph</p>
-        </div>
-        <script>
-            const p = document.querySelector('p')
-            p.addEventListener("click", (event) => {
-              alert("我是p元素上被绑定的第一个监听函数");
-            }, false);
-
-            p.addEventListener("click", (event) => {
-              alert("我是p元素上被绑定的第二个监听函数");
-              event.stopImmediatePropagation();
-              // 执行stopImmediatePropagation方法,阻止click事件冒泡,并且阻止p元素上绑定的其他click事件的事件监听函数的执行.
-            }, false);
-
-            p.addEventListener("click",(event) => {
-              alert("我是p元素上被绑定的第三个监听函数");
-              // 该监听函数排在上个函数后面，该函数不会被执行
-            }, false);
-
-            document.querySelector("div").addEventListener("click", (event) => {
-              alert("我是div元素,我是p元素的上层元素");
-              // p元素的click事件没有向上冒泡，该函数不会被执行
-            }, false);
-        </script>
-    </body>
-</html>
+<style>
+	/* IFC */
+  .text_container{
+    width: 650px;
+    border: 3px solid salmon;
+    margin-top:60px;
+    text-align: center;
+  }
+  strong,span{
+    /* border:1px solid cornflowerblue; */
+    margin: 20px;
+    background-color: cornflowerblue;
+    color:#fff;
+  }
+</style>
+<body>
+    <div class="text_container">
+        <strong>众里寻他千百度，南玖需要你关注</strong>
+        <span>蓦然回首，那人却在，南玖前端交流群</span>
+    </div>
+</body>
