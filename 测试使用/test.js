@@ -1,26 +1,16 @@
-function curry(fn, args) {
-    var length = fn.length
-    args = args || []
-    return function() {
-        console.log(1)
-        var _args = args.slice(0)
-        for (let i = 0; i < arguments.length; i++) {
-            if (arguments[i] === _) continue
-            _args.push(arguments[i])
-        }
-        if (_args.length < length) {
-            return curry.call(this, fn, _args)
-        } else {
-            return fn.apply(this, _args)
-        }
-    }
+function newObject() {
+    const Con = [].shift.call(arguments)
+    let obj = new Object()
+    Object.setPrototypeOf(obj, Con.prototype)
+    let res = Con.apply(obj, arguments)
+    return typeof res === 'object' ? res : obj
 }
-var _= ''
-var fn = curry(function(a, b, c) {
-    console.log([a, b, c]);
-});
+Person.prototype = {
+    b: 3
+}
+function Person(name) {
+    this.name = name
+}
 
-fn("a", _, "c")("b") // ["a", "b", "c"]
-
-
-
+let o = newObject(Person, 'a')
+console.log(o.b)
