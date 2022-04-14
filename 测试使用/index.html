@@ -1,21 +1,71 @@
-<style>
-	/* IFC */
-  .text_container{
-    width: 650px;
-    border: 3px solid salmon;
-    margin-top:60px;
-    text-align: center;
-  }
-  strong,span{
-    /* border:1px solid cornflowerblue; */
-    margin: 20px;
-    background-color: cornflowerblue;
-    color:#fff;
-  }
-</style>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    img {
+      width: 50px;
+      height: 50px;
+      margin: 100px auto;
+      display: block;
+    }
+  </style>
+</head>
+
 <body>
-    <div class="text_container">
-        <strong>众里寻他千百度，南玖需要你关注</strong>
-        <span>蓦然回首，那人却在，南玖前端交流群</span>
-    </div>
+  <img src="" alt="" data-src="https://cdn2.thecatapi.com/images/i5.jpg">
+  <img src="" alt="" data-src="https://cdn2.thecatapi.com/images/i5.jpg">
+  <img src="" alt="" data-src="https://cdn2.thecatapi.com/images/i5.jpg">
+  <img src="" alt="" data-src="https://cdn2.thecatapi.com/images/i5.jpg">
+  <img src="" alt="" data-src="https://cdn2.thecatapi.com/images/i5.jpg">
+  <img src="" alt="" data-src="https://cdn2.thecatapi.com/images/i5.jpg">
+  <img src="" alt="" data-src="https://cdn2.thecatapi.com/images/i5.jpg">
+  <img src="" alt="" data-src="https://cdn2.thecatapi.com/images/i5.jpg">
+  <img src="" alt="" data-src="https://cdn2.thecatapi.com/images/i5.jpg">
+  <img src="" alt="" data-src="https://cdn2.thecatapi.com/images/i5.jpg">
+  <img src="" alt="" data-src="https://cdn2.thecatapi.com/images/i5.jpg">
+  <img src="" alt="" data-src="https://cdn2.thecatapi.com/images/i5.jpg">
+  <img src="" alt="" data-src="https://cdn2.thecatapi.com/images/i5.jpg">
+  <img src="" alt="" data-src="https://cdn2.thecatapi.com/images/i5.jpg">
+  <img src="" alt="" data-src="https://cdn2.thecatapi.com/images/i5.jpg">
+  <img src="" alt="" data-src="https://cdn2.thecatapi.com/images/i5.jpg">
+  <img src="" alt="" data-src="https://cdn2.thecatapi.com/images/i5.jpg">
+  <img src="" alt="" data-src="https://cdn2.thecatapi.com/images/i5.jpg">
+  <img src="" alt="" data-src="https://cdn2.thecatapi.com/images/i5.jpg">
+  <img src="" alt="" data-src="https://cdn2.thecatapi.com/images/i5.jpg">
+  <script>
+    function lazyload() {
+      let imgs = document.querySelectorAll('img')
+      let viewHeight = document.documentElement.clientHeight
+      let num = 0
+      for (let i = num; i < imgs.length; i++) {
+        let h = imgs[i].getBoundingClientRect().top
+        if (viewHeight - h >= 0) {
+          imgs[i].src = imgs[i].getAttribute('data-src')
+          num = i
+        } else {
+          break
+        }
+      }
+    }
+
+    function debounce(fn, wait = 100) {
+      let timer = null
+      return function () {
+        if (timer) clearTimeout(timer)
+        timer = setTimeout(function () {
+          fn.call(this, arguments)
+        }, wait)
+      }
+    }
+
+    window.onload = lazyload
+    window.addEventListener('scroll', debounce(lazyload, 50))
+  </script>
 </body>
+
+</html>
