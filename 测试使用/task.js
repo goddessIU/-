@@ -1,19 +1,7 @@
-let apple = {
-    a: 1
+let obj = {
+    length: 2,
+    0: '1',
+    1: '2'
 }
-
-let range = {
-    from: 1,
-    to: 5,
-    *[Symbol.iterator]() {
-        let current = this.from
-        let last = this.to
-        for (let i = current; i <= last; i++) {
-            yield i;
-        }
-    },
-    __proto__: apple
-}
-
-
-console.log(Object.getOwnPropertySymbols(range))
+let h = [].concat(Object.getPrototypeOf([]).slice.call(obj))
+console.log(h)
