@@ -1,31 +1,15 @@
-Function.prototype.myBind = function(thisArg) {
-    let fn = this
-    let args = [].slice.call(arguments, 1)
-    function fNot() {}
-    function fBound() {
-        let res = fn.call(this instanceof fNot ? this : thisArg, ...args, ...arguments)
-        return res
+let range = {
+    from: 1,
+    to: 5,
+    async *[Symbol.asyncIterator]() {
+        
+        for (let i= this.from; i <= this.to; i++) {
+            await new Promise(resolve => setTimeout(resolve, 1000))
+            yield i;
+        }   
     }
-    fNot.prototype = this.prototype
-    return fBound
-}
+};
 
-let obj = {
-    name: 'george'
-}
-
-function hello(age, hobby) {
-    this.age = age
-    this.hobby = hobby
-    console.log(this.name)
-    console.log(age)
-    console.log(hobby)
-    console.log(this.friends)
-}
-
-hello.prototype = {
-    friends: ['a', 'b', 'c']
-}
-
-let helloBind = hello.bind(obj, 13)
-console.log(new helloBind('football'))
+(async () => {
+    for await (const val of range) console.log(val)
+})()
