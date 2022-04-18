@@ -1,15 +1,17 @@
-let range = {
-    from: 1,
-    to: 5,
-    async *[Symbol.asyncIterator]() {
-        
-        for (let i= this.from; i <= this.to; i++) {
-            await new Promise(resolve => setTimeout(resolve, 1000))
-            yield i;
-        }   
+class MyError extends Error {
+    constructor(message) {
+        super(message)
+        this.name = this.constructor.name
     }
-};
+}
 
-(async () => {
-    for await (const val of range) console.log(val)
-})()
+class ValidationError extends MyError {}
+
+class PropertyRequiredError extends ValidationError {
+    constructor(property) {
+        super(property)
+        this.property = property
+    }
+}
+
+console.log(new PropertyRequiredError('ff').name)
