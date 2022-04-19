@@ -1,7 +1,12 @@
-let obj = {
-    length: 2,
-    0: '1',
-    1: '2'
-}
-let h = [].concat(Object.getPrototypeOf([]).slice.call(obj))
-console.log(h)
+// const rejectHandler = reason => ({ status: 'rejected', reason });
+
+// const resolveHandler = value => ({ status: 'fulfilled', value });
+
+// Promise.allSettled1 = function(promises) {
+//     const convertedPromises = promises.map(p => Promise.resolve(p).then(resolveHandler, rejectHandler))
+//     return Promise.all(convertedPromises)
+// }
+
+new Promise((resolve, reject) => {
+    resolve(Promise.resolve(3))
+}).then(res => console.log(res))
