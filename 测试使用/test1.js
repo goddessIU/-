@@ -1,3 +1,3 @@
-let t = {}
-let d = new Proxy(t, {})
-console.log(d == t)
+for (const elem of document.body.children) {
+    
+}

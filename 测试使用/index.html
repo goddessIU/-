@@ -5,14 +5,26 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        #h {
+            width: 500px;
+            height: 500px;
+            background-color: red;
+        }
+        #t {
+            width: 200px;
+            height: 200px;
+            background-color: blue;
+        }
+    </style>
 </head>
 <body>
+    <div id="h">
+        <div id="t"></div>
+    </div>
+   
     <script>
-        (async() => {
-            let t = await import('./task.js')
-        alert(t.sayHi())
-        })()
-        
+        console.log(document.elementFromPoint(10, 10))
     </script>
 </body>
 </html>
