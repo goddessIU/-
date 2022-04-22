@@ -5,26 +5,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <style>
-        #h {
-            width: 500px;
-            height: 500px;
-            background-color: red;
-        }
-        #t {
-            width: 200px;
-            height: 200px;
-            background-color: blue;
-        }
-    </style>
 </head>
 <body>
-    <div id="h">
-        <div id="t"></div>
-    </div>
-   
+    <h1 id="elem">hello</h1>
     <script>
-        console.log(document.elementFromPoint(10, 10))
+        document.addEventListener('hello', function(event) {
+            alert(1)
+        })
+        let event = new Event('hello', { bubbles: true })
+        elem.dispatchEvent(event)
     </script>
 </body>
 </html>

@@ -1,13 +1,14 @@
-function delay(f, ms) {
-    return new Proxy(f, {
-        apply(target, thisArg, args) {
-            setTimeout(() => target.apply(thisArg, args), ms)
-        }
-    })
-}
+let group = {
+  title: "Our Group",
+  students: ["John", "Pete", "Alice"],
 
-function add(a, b) {
-    console.log(a + b)
-}
-let f = delay(add, 300)
-f(1, 2)
+  showList() {
+    this.students.forEach(function(student) {
+        console.log(this)
+      // Error: Cannot read property 'title' of undefined
+      console.log(this.title + ': ' + student);
+    });
+  }
+};
+globalThis.title = 'hhh'
+group.showList();
