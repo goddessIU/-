@@ -6,31 +6,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
-        #boy {
-            width: 200px;
-            height: 200px;
-            background-color: blue;
+        * {
+            margin: 0;
+            padding: 0;
         }
-        #girl {
-            width: 200px;
-            height: 200px;
+        div {
+            margin-left: 100px;
+            width: 100px;
+            height: 300px;
             background-color: red;
+            overflow: scroll;
+        }
+        div p {
+            height: 2000px;
+            width: 50px;
         }
     </style>
 </head>
 <body>
-    <div id="boy"></div>
-    <div id="girl"></div>
-    <script>
-        function handler(e) {
-            console.log(e.target)
-            console.log(e.relatedTarget)
-            console.log(e.type)
-        }
-        boy.addEventListener('mouseover', handler)
-        boy.addEventListener('mouseout', handler)
-        girl.addEventListener('mouseover', handler)
-        girl.addEventListener('mouseout', handler)
-    </script>
+    <div>
+        <p>
+            dfslfdjsldfj
+        </p>
+    </div>
+    
 </body>
+<script>
+    window.onload = function() {
+        let div = document.querySelector('div')
+        div.scrollTop = 300
+        console.log(div.scrollTop)
+    }
+    
+</script>
 </html>
