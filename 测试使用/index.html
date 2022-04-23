@@ -5,15 +5,32 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        #boy {
+            width: 200px;
+            height: 200px;
+            background-color: blue;
+        }
+        #girl {
+            width: 200px;
+            height: 200px;
+            background-color: red;
+        }
+    </style>
 </head>
 <body>
-    <h1 id="elem">hello</h1>
+    <div id="boy"></div>
+    <div id="girl"></div>
     <script>
-        document.addEventListener('hello', function(event) {
-            alert(1)
-        })
-        let event = new Event('hello', { bubbles: true })
-        elem.dispatchEvent(event)
+        function handler(e) {
+            console.log(e.target)
+            console.log(e.relatedTarget)
+            console.log(e.type)
+        }
+        boy.addEventListener('mouseover', handler)
+        boy.addEventListener('mouseout', handler)
+        girl.addEventListener('mouseover', handler)
+        girl.addEventListener('mouseout', handler)
     </script>
 </body>
 </html>

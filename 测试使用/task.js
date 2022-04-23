@@ -1,6 +1,5 @@
-let o = Object.create(null)
-console.log(Object.getPrototypeOf(o))
-
-let d = new Object()
-Object.setPrototypeOf(d, null)
-console.log(Object.getPrototypeOf(d))
+Promise.race([
+  new Promise((resolve, reject) => setTimeout(() => resolve(1), 2000)),
+  new Promise((resolve, reject) => setTimeout(() => reject(new Error("Whoops!")), 1000)),
+  new Promise((resolve, reject) => setTimeout(() => resolve(3), 3000))
+]).then(console.log); // 1
