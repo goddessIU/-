@@ -31,12 +31,13 @@
     </div>
     
 </body>
-<script>
-    window.onload = function() {
-        let div = document.querySelector('div')
-        div.scrollTop = 300
-        console.log(div.scrollTop)
-    }
+<script type="module">
+    import { f } from './test1.js'
+    console.log(1)
+    let a = 2
+    f()
+    console.log(3)
+
     
 </script>
 </html>

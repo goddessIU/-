@@ -1,1 +1,3 @@
-const instance = 
+export  function f() {
+    console.log(a)
+}
