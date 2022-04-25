@@ -6,38 +6,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
+        .container {
+            width: 1000px;
+            background-color: blue;
+            height: 500px;
+            display: flex;
         }
-        div {
-            margin-left: 100px;
-            width: 100px;
-            height: 300px;
+        .container div {
+            flex-basis: 300px;
+            flex-shrink: 1;
             background-color: red;
-            overflow: scroll;
+            height: 20px;
         }
-        div p {
-            height: 2000px;
-            width: 50px;
+        .container .h {
+            flex-shrink: 6;
         }
     </style>
 </head>
 <body>
-    <div>
-        <p>
-            dfslfdjsldfj
-        </p>
+    <div class="container">
+        <div>1</div>
+        <div class="h">2</div>
+        <div>3</div>
+        <div>4</div>
+        <div>5</div>
     </div>
-    <script crossorigin="anonymous">
-        let script = document.createElement('script')
-        script.src = ''
-        document.head.append(script)
-        script.onerror = function() {
-
-        }
-        
-    </script>
 </body>
-
 </html>
