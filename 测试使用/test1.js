@@ -1,7 +1,3 @@
-exports.a = {
-    a: '1'
-}
-
-exports.b = {
-    b: 2
+module.exports = {
+    a: '111'
 }

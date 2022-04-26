@@ -1,3 +1,11 @@
-const ab= require('./test1')
-console.log(ab.a)
-console.log(ab.b)
+// b.mjs
+let count = 1;
+export default {
+  count,
+  add() {
+    count++;
+  },
+  get() {
+    return count;
+  }
+}
