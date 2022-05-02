@@ -1,3 +1,5 @@
-module.exports = {
-    a: '111'
+function f() {
+    var b = 1
 }
+console.log(b)
+var b

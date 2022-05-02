@@ -6,27 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
-        .container {
-            width: 1000px;
-            background-color: blue;
-            height: 500px;
-            display: flex;
-        }
-        .container div {
-            flex-basis: 100%;
-            flex-shrink: 1;
-            background-color: red;
-            height: 20px;
+        div {
+            width: 0;
+            height: 0;
+            border-top: 30px solid red;
+            border-bottom: 30px solid transparent;
+            border-left: 30px solid green;
+            border-right: 30px solid yellow;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div>1</div>
-        <div class="h">2</div>
-        <div>3</div>
-        <div>4</div>
-        <div>5</div>
-    </div>
+    <div></div>
 </body>
 </html>
