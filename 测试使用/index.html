@@ -6,17 +6,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
-        div {
-            width: 0;
-            height: 0;
-            border-top: 30px solid red;
-            border-bottom: 30px solid transparent;
-            border-left: 30px solid green;
-            border-right: 30px solid yellow;
+        .father {
+            /* font-size: 20px; */
+        }
+        .son {
+            width: 8em;
+            height: 8em;
+            background-color: blue;
+        }
+        .sonson {
+            width: 3em;
+            height: 3em;
+            background-color: red;
         }
     </style>
 </head>
 <body>
-    <div></div>
+    <div class="father">
+        <div class="son">
+            <div class="sonson"></div>
+        </div>
+    </div>
 </body>
 </html>

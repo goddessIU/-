@@ -1,6 +1,7 @@
-// a.mjs
-import b from './test';
-console.log(b.count);    // 1
-b.add();
-console.log(b.count);    // 1
-console.log(b.get());    // 2
+var a= function P() { this.b =3; }
+var c = new a();
+a.prototype.b = 9;
+var b = 7;
+a();
+console.log(b);
+console.log(c.b);
