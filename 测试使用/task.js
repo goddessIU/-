@@ -1,58 +1,28 @@
-function judgeType(obj) {
-    return Object.prototype.toString.call(obj).slice(8, -1).toLowerCase()
-}
-
-function isObject(obj) {
-    return (typeof obj === 'function' || typeof obj === 'object') && obj !== null
-}
-
-function deepClone(obj, set = new WeakSet()) {
-    if (!isObject(obj)) {
-        return obj
-    }
-    if (set.has(obj)) {
-        return obj
-    }
-    set.add(obj)
-
-    let source = null
-    let type = undefined
-    if (Array.isArray(obj)) type = 'array'
-    else type = judgeType(obj)
-
-    if (type === 'array') {
-        source = []
-        for (let key in obj) {
-            if (obj.hasOwnProperty(key)) {
-                source[key] = deepClone(obj[key], set)
-            }
+var maxSubArray = function(nums) {
+    let val = nums[0]
+    let res = nums[0]
+    let right = 0
+    let left = 0
+    for (let i = 1; i < nums.length; i++) {
+        let d = 0
+        m = nums[i]
+        if (val + m < m) {
+            val = m
+            d = 1
+        } else {
+            val += m
         }
-    } else if (type === 'date') {
-        console.log(obj)
-        
-        return new Date(obj)
-    } else {
-        source = Object.create(null)
-        for (let key in obj) {
-            if (obj.hasOwnProperty(key)) {
-                source[key] = deepClone(obj[key], set)
+        if (val > res) {
+            res = val
+            if (d === 1) {
+                left = i
+                right = i
+            } else {
+                right = i
             }
         }
     }
+    return nums.slice(left, right + 1)
+};
 
-
-    return obj
-}
-
-let target = {
-    a: 1,
-    b: [2, 3],
-    c: {
-        d: 4
-    },
-    e: new Date(0)
-}
-
-target.f = target
-console.log(target.e)
-console.log(deepClone(target))
+console.log(maxSubArray([-2,1,-3,4,-1,2,1,-5,4]))
