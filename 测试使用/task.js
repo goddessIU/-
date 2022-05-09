@@ -1,28 +1,24 @@
-var maxSubArray = function(nums) {
-    let val = nums[0]
-    let res = nums[0]
-    let right = 0
-    let left = 0
-    for (let i = 1; i < nums.length; i++) {
-        let d = 0
-        m = nums[i]
-        if (val + m < m) {
-            val = m
-            d = 1
-        } else {
-            val += m
-        }
-        if (val > res) {
-            res = val
-            if (d === 1) {
-                left = i
-                right = i
+function makeRequest(url) {
+    return new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest()
+        xhr.open('GET', url, true)
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState !== 4) return;
+            if (xhr.status === 200 || xhr.status === 304) {
+                resolve(xhr.responseText)
             } else {
-                right = i
+                reject(new Error(xhr.responseText))
             }
         }
-    }
-    return nums.slice(left, right + 1)
-};
+        xhr.send()
+    })
+}
 
-console.log(maxSubArray([-2,1,-3,4,-1,2,1,-5,4]))
+const urls = ['1', '2', '3']
+const promiseArr = urls.map((url) => {
+    return makeRequest(url)
+})
+
+Promise.race(promiseArr).then(res => {
+    console.log(res)
+})
