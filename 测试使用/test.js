@@ -1,32 +1,26 @@
-const arr = [[1, 4], [7, 9], [3, 6]]
-function mergeArr(arr) {
-    arr.sort((a, b) => {
-        if (a[0] === b[0]) {
-            return a[1] - b[1]
-        } else {
-            return a[0] - b[0]
-        }
-    })
+const arr = [1, 2, 3,4, 5, 2, 1]
 
-    const res = []
-    let start = arr[0][0],
-        end = arr[0][1]
-    
-    for (let i = 1; i < arr.length; i++) {
-        const [a, b] = arr[i]
-        if (a > end) {
-            res.push([start, end])
-            start = a
-            end = b
-        } else if (a <= end && b > end) {
-            end = b
-        } else if (b < end) {
-            continue
+function findIndex(arr) {
+    const n = arr.length
+    let left = 0,
+        right = n - 1
+    while (left <= right) {
+        const mid = Math.floor((left + right) / 2)
+        if (mid === 0) {
+            return mid
+        } else if (mid === n- 1) {
+            return mid
+        }
+
+        if (arr[mid] > arr[mid - 1] && arr[mid] > arr[mid + 1]) {
+            return mid
+        } else if (arr[mid] < arr[mid + 1]) {
+            left = mid + 1
+        } else if (arr[mid] < arr[mid - 1]) {
+            right = mid - 1
         }
     }
-    res.push([start, end])
-
-    console.log(res)
+    return undefined
 }
 
-mergeArr(arr)
+console.log(findIndex(arr))

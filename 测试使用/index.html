@@ -1,36 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <style>
-        div {
-            font-size: 30px;
-            line-height: 200%;
-        }
-        .p1 {
-            font-size: 14px;
-        }
-        .p2 {
-            font-size: 14px;
-        }
-
-    </style>
 </head>
-
 <body>
-    <div>
-        <p class="p1">
-            nihao
-        </p>
-
-        <p class="p2">
-            nihao
-        </p>
-    </div>
+    <div id="ha"></div>
+    <script>
+        const div = document.querySelector('#ha')
+        div.innerHTML = '<div>llll</div>'
+        div.textContent = 'hhhh'
+    </script>
 </body>
-
 </html>
