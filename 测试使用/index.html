@@ -5,13 +5,31 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        #outer {
+            width: 200px;
+            background-color: blue;
+            height: 30px;
+            overflow: hidden;
+        }
+        #hello {
+            width: 100%;
+            animation: 2s linear infinite move ;
+        }
+        @keyframes move {
+            0% {
+                transform: translateX(100%);
+            }
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+    </style>
 </head>
 <body>
-    <div id="ha"></div>
-    <script>
-        const div = document.querySelector('#ha')
-        div.innerHTML = '<div>llll</div>'
-        div.textContent = 'hhhh'
-    </script>
+    <div id="outer">
+        <div id="hello">hello</div>
+    </div>
+    
 </body>
 </html>

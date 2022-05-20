@@ -1,24 +1,15 @@
-function makeRequest(url) {
-    return new Promise((resolve, reject) => {
-        const xhr = new XMLHttpRequest()
-        xhr.open('GET', url, true)
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState !== 4) return;
-            if (xhr.status === 200 || xhr.status === 304) {
-                resolve(xhr.responseText)
-            } else {
-                reject(new Error(xhr.responseText))
-            }
+function flat(arr, depth) {
+    if (depth <= 0) return arr
+    let res = []
+    arr.forEach(item => {
+        if (Array.isArray(item)) {
+            res =  res.concat(flat(item, depth - 1))
+        } else {
+            res.push(item)
         }
-        xhr.send()
     })
+    return res
 }
 
-const urls = ['1', '2', '3']
-const promiseArr = urls.map((url) => {
-    return makeRequest(url)
-})
-
-Promise.race(promiseArr).then(res => {
-    console.log(res)
-})
+const arr = [[1], [2, 3], [4, 6], [7, [8, 9]]]
+console.log(flat(arr, 8))
