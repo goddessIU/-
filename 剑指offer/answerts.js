@@ -1,30 +1,29 @@
-function mergeSortedArr(arr1, arr2) {
-    var i = arr1.length - 1;
-    arr1.length += arr2.length;
-    var j = arr2.length - 1;
-    var len = arr1.length - 1;
-    while (i >= 0 && j >= 0) {
-        if (arr1[i] >= arr2[j]) {
-            arr1[len] = arr1[i];
-            i--;
-            len--;
+function countingSort(arr) {
+    const res = []
+    
+    let minValue = arr[0],
+        maxValue = arr[0]
+    for (const m of arr) {
+        minValue = Math.min(minValue, m)
+        maxValue = Math.max(maxValue, m)
+    }
+
+    const tempArr = new Array(maxValue - minValue + 1).fill(0)
+    for (const m of arr) {
+        tempArr[m - minValue]++
+    }
+
+    for (let i = 0; i < tempArr.length; i++) {
+        if (tempArr[i] > 0) {
+            const d = i + minValue
+            while (tempArr[i] > 0) {
+                res.push(d)
+                tempArr[i]--
+            }
         }
-        else {
-            arr1[len] = arr2[j];
-            j--;
-            len--;
-        }
     }
-    while (i >= 0) {
-        arr1[len] = arr1[i];
-        i--;
-        len--;
-    }
-    while (j >= 0) {
-        arr1[len] = arr2[j];
-        j--;
-        len--;
-    }
-    return arr1;
+
+    return res
 }
-console.log(mergeSortedArr([2, 5, 7], [3, 4, 8]));
+
+console.log(countingSort([1,3, 9, 2, 7, 12]))
