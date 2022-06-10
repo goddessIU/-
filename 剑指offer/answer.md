@@ -103,3 +103,82 @@ function reversePrint(head: ListNode | null): number[] {
 ## Q11 排序和查找
 数组有序和二叉搜索树要注意
 十大排序，在什么情况下如何使用
+
+## Q14 剪绳子
+动态规划算法不写了， 记录下贪心
+```ts
+function cuttingRope(n: number): number {
+    if (n === 2) return 1
+    if (n === 3) return 2
+
+    let sum: number = 1
+    while (n > 4) {
+        n -= 3
+        sum *= 3
+    }
+    sum *= n
+    
+    return sum
+};
+```
+
+## Q15 二进制中1的个数
+```js
+var hammingWeight = function(n) {
+    let sum = 0
+    while (n) {
+        if (n & 1) sum++
+        n >>>= 1
+    }
+    return sum
+};
+但是遇到负数会出问题，所以优化为下面
+
+
+
+var hammingWeight = function(n) {
+    let sum = 0
+    let flag = 1
+    while (flag) {
+        if (n & flag) sum++
+        flag <<= 1
+    }
+    return sum
+};
+循环次数为整数二进制的位数，32位整数要循环32次，如下优化
+
+var hammingWeight = function(n) {
+    let sum = 0
+    
+    while (n) {
+        sum++
+        n = (n - 1) & n
+    }
+    return sum
+};
+```
+
+相关题目：
+```js
+function judge(n) {
+    let d = (n - 1) & n
+    if (d === 0) return true
+    return false
+}
+
+console.log(judge(7))
+```
+
+```js
+function judge(m, n) {
+    let d = m ^ n
+    let res = 0
+    while (d) {
+        res++
+        d = (d - 1) & d
+    }
+    return res
+}
+
+console.log(judge(10, 13))
+```
