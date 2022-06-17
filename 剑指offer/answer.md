@@ -182,3 +182,60 @@ function judge(m, n) {
 
 console.log(judge(10, 13))
 ```
+
+## Q16
+```java
+// 递归解法
+class Solution {
+    
+    public double myPow(double x, int n) {
+        if (x == 0.0) {
+            return 0.0;
+        }
+        long N = n;
+        double res = N >= 0 ? getRes(x, N) : 1.0 /getRes(x, -N);
+        // if (judge) {
+        //     res = 1.0 / res;
+        // }
+        return res;
+    }
+    public double getRes(double x, long n) {
+        if (n == 0) return 1;
+        if (n == 1) return x;
+        double res = getRes(x, n / 2);
+        res = res * res;
+        if (n % 2 == 1) {
+            res = res * x;
+        }
+        return res;
+    }
+}
+
+
+// 递推解法
+class Solution {
+    
+    public double myPow(double x, int n) {
+        if (x == 0.0) {
+            return 0.0;
+        }
+        long N = n;
+        double res = N >= 0 ? getRes(x, N) : 1.0 /getRes(x, -N);
+        // if (judge) {
+        //     res = 1.0 / res;
+        // }
+        return res;
+    }
+    public double getRes(double x, long n) {
+        if (n == 0) return 1;
+        if (n == 1) return x;
+        double ans = 1;
+        while (n > 0) {
+            if (n % 2 == 1) ans *= x;
+            x *= x;
+            n /= 2;
+        }
+        return ans;
+    }
+}
+```
