@@ -239,3 +239,97 @@ class Solution {
     }
 }
 ```
+
+
+## Q17
+```ts
+function Print1ToMax(n) {
+    var res = [];
+    var temp = new Array(n);
+    temp.fill('0');
+    if (n <= 0)
+        return;
+    while (!Increment(temp)) {
+        PrintNumber(temp);
+    }
+}
+function Increment(array) {
+    var isOverFlow = false;
+    var takeOverFlow = 0;
+    var len = array.length - 1;
+    for (var i = len; i >= 0; i--) {
+        var tSum = array[i].charCodeAt(0) - '0'.charCodeAt(0) + takeOverFlow;
+        if (i === len)
+            tSum++;
+        if (tSum >= 10) {
+            if (i === 0) {
+                isOverFlow = true;
+                break;
+            }
+            else {
+                tSum -= 10;
+                takeOverFlow = 1;
+                array[i] = String.fromCharCode('0'.charCodeAt(0) + tSum);
+            }
+        }
+        else {
+            array[i] = String.fromCharCode('0'.charCodeAt(0) + tSum);
+            break;
+        }
+    }
+    return isOverFlow;
+}
+function PrintNumber(array) {
+    var isZero = false;
+    var tem = [];
+    for (var i = 0; i < array.length; i++) {
+        if (!isZero && array[i] !== '0') {
+            isZero = true;
+        }
+        if (isZero) {
+            tem.push(array[i]);
+        }
+    }
+    console.log(tem);
+}
+Print1ToMax(2);
+
+
+递归解法
+function Print1ToMax(n) {
+    var res = [];
+    var temp = new Array(n);
+    temp.fill('0');
+    if (n <= 0)
+        return;
+    for (var i = 1; i < 10; i++) {
+        temp[0] = String.fromCharCode(i + '0'.charCodeAt(0));
+        dfs(temp, n, 0);
+    }
+}
+function dfs(array, len, index) {
+    if (index === len - 1) {
+        PrintNumber(array);
+        return;
+    }
+    for (var i = 1; i < 10; i++) {
+        array[index + 1] = String.fromCharCode(i + '0'.charCodeAt(0));
+        dfs(array, len, index + 1);
+    }
+}
+function PrintNumber(array) {
+    var isZero = false;
+    var tem = [];
+    for (var i = 0; i < array.length; i++) {
+        if (!isZero && array[i] !== '0') {
+            isZero = true;
+        }
+        if (isZero) {
+            tem.push(array[i]);
+        }
+    }
+    console.log(tem);
+}
+Print1ToMax(2);
+
+```
