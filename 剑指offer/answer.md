@@ -333,3 +333,89 @@ function PrintNumber(array) {
 Print1ToMax(2);
 
 ```
+
+
+## Q19
+```ts
+自己写的递归
+function isMatch(s: string, p: string): boolean {
+    return judge(s, p, s.length - 1, p.length - 1)
+};
+
+function judge(s: string, p: string, tS:number, tP: number): boolean {
+    while (tP >= 0 && tS >= 0) {
+        if (p[tP] === '.') {
+            tP--
+            tS--
+        } else if (p[tP] === '*') {
+            const d = p[tP - 1]
+            if (d === '.') {
+                while (tS >= 0) {
+                    if (judge(s, p, tS, tP - 2)) {
+                        return true
+                    }
+                    tS--
+                }
+                tP -= 2
+            } else {
+                if (s[tS] !== d) {
+                    tP -= 2
+                    continue
+                } 
+                while (s[tS] === d) {
+                    if (judge(s, p, tS, tP - 2)) {
+                        return true
+                    }
+                    tS--
+                }
+                tP -= 2
+            }
+        } else {
+            if (p[tP] !== s[tS]) {
+                return false
+            } 
+            tP--
+            tS--
+        }
+    }
+    if (tS >= 0) return false
+    while (tP >= 0) {
+        if (p[tP] !== '*') return false
+        else {
+            tP -= 2
+        }
+    }
+    return true
+}
+
+动态规划
+function isMatch(s: string, p: string): boolean {
+    let dp: boolean[][] = new Array(s.length + 1).fill(0).map(() => new Array(p.length +1).fill(false))
+    dp[0][0] = true
+    for (let i = 0; i <= s.length; i++) {
+        for (let j = 1; j <= p.length; j++) {
+            if (p[j - 1] === '*') {
+                if (matches(s, p, i, j - 1)) {
+                    dp[i][j] = dp[i][j - 2] || dp[i - 1][j]
+                } else {
+                    dp[i][j] = dp[i][j - 2]
+                }
+            } else {
+                if (matches(s, p, i, j)) {
+                    dp[i][j] = dp[i - 1][j  - 1]
+                } else {
+                    dp[i][j] = false
+                }
+            }
+        }
+    }
+    console.log(dp)
+    return dp[s.length][p.length]
+};
+
+function matches(s: string, p: string, i:number, j:number) {
+    if (i === 0) return false
+    if (p[j - 1] === '.') return true
+    return s[i - 1] === p[j - 1]
+}
+```
