@@ -419,3 +419,38 @@ function matches(s: string, p: string, i:number, j:number) {
     return s[i - 1] === p[j - 1]
 }
 ```
+
+## Q20
+```ts
+let start, end
+
+function isNumber(s: string): boolean {
+    if (s.length === 0) return false
+    start = 0
+    end = s.length - 1
+    while (s[start] === ' ') start++
+    while (s[end] === ' ') end--
+
+    let numeric: boolean = scanInteger(s)
+    if (s[start] === '.') {
+        ++start
+        numeric = scanUnsignedInteger(s) || numeric
+    }   
+    if (s[start] === 'e' || s[start] === 'E') {
+        ++start
+        numeric = scanInteger(s) && numeric
+    }
+    return numeric && start > end
+};
+
+function scanInteger(s: string): boolean {
+    if (s[start] === '+' || s[start] === '-') start++
+    return scanUnsignedInteger(s)
+}
+
+function scanUnsignedInteger(s: string): boolean {
+    let before = start
+    while (s[start] >= '0' && s[start] <= '9' && start <= end) start++
+    return start > before
+}
+```
