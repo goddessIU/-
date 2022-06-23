@@ -454,3 +454,30 @@ function scanUnsignedInteger(s: string): boolean {
     return start > before
 }
 ```
+
+## Q21
+```ts
+进行了解耦
+function exchange(nums: number[]): number[] {
+    let  i = 0,
+        j = nums.length - 1
+    while (i < j) {
+        while (i < j && judge(nums[i])) {
+            i++
+        }
+        while (i < j && !judge(nums[j])) {
+            j--
+        }
+        if (i < j) {
+            [nums[i], nums[j]] = [nums[j], nums[i]]
+        }
+        i++
+        j--
+    }
+    return nums
+};
+
+function judge(num: number) {
+    return num % 2 === 1
+}
+```
